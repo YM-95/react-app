@@ -1,24 +1,28 @@
-import express from "express";
-import bodyParser from "body-parser";
-import mongoose from "mongoose";
-import { router } from './routes/workout.js'
+const dotenv = require('dotenv');
+dotenv.config()
+const express = require("express");
+const mongoose = require("mongoose");
+const router = require('./routes/workout')
 
 const app = express();
 
-const db = "mongodb+srv://yordan_manolov:15115056qwe@atlascluster.t3w7b7o.mongodb.net/?retryWrites=true&w=majority"
+
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
+app.use('/', router)
+
+
+
 
 async function connect() {
 
     try {
-        await mongoose.connect(db)
+        await mongoose.connect(process.env.MONGO_URI)
         console.log("MongoDB connected");
     } catch (err) {
         console.log(err);
     }
 }
-
-app.use('/', router)
-
 
 
 connect()

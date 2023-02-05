@@ -1,7 +1,9 @@
-import { getRounds } from "bcrypt";
-import express from "express";
 
-export const router = express.Router();
+const express = require("express");
+const router = express.Router();
+const Workout = require('../models/workoutSchema')
+
+
 
 
 //GET ALL
@@ -11,13 +13,21 @@ router.get('/', (req, res) => {
 
 //GET SILNGLE ITEM
 
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
+
 
 });
 
 //POST
-router.post('/:id', (req, res) => {
+router.post('/', async (req, res) => {
+    const { title, reps, load } = req.body
 
+    try {
+        const workout = await Workout.create({ title, reps, load })
+        res.status(200).json(workout)
+    } catch (err) {
+        console.log(err.message);
+    }
 });
 
 //DELETE
@@ -31,4 +41,4 @@ router.post('/:id', (req, res) => {
 })
 
 
-
+module.exports = router;
