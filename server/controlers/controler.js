@@ -1,10 +1,28 @@
-
 const Workout = require('../models/workoutSchema');
+const mongoose = require('mongoose')
 
 
-const getOne = (req, res) => {
 
+// GET ONE 
+
+const getOne = async (req, res) => {
+    const { id } = req.params
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ error: 'No such value!' });
+    }
+
+    const workout = await Workout.findById(id);
+
+    if (!workout) {
+        return res.status(404).json({ error: "Oops.." })
+    }
+
+    res.status(200).json(workout)
 };
+
+
+//GET ALL 
 
 const getAll = async (req, res) => {
 
@@ -14,7 +32,9 @@ const getAll = async (req, res) => {
 };
 
 
+
 //CREATE new post in db
+
 const createPost = async (req, res) => {
     const { title, reps, load } = req.body
 
@@ -27,13 +47,20 @@ const createPost = async (req, res) => {
 };
 
 
-const deletePost = (req, res) => {
+const deletePost = async (req, res) => {
+
+    const { id } = req.params;
+
+    const workout = await Workout.deleteOne(id)
+
+    res.status(200).json(workout)
 
 };
 
 
 module.exports = {
+    getOne,
     getAll,
     createPost,
-
+    deletePost
 }

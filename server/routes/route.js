@@ -1,4 +1,4 @@
-const { createPost, getAll } = require('../controlers/controler')
+const { createPost, getAll, getOne, deletePost } = require('../controlers/controler')
 const express = require("express");
 const router = express.Router();
 
@@ -7,22 +7,17 @@ const router = express.Router();
 
 
 //GET ALL
-router.get('/all', getAll);
+router.get('/', getAll);
 
 //GET SILNGLE ITEM
 
-router.get('/:id', async (req, res) => {
-
-
-});
+router.get('/:id', getOne);
 
 //POST
 router.post('/', createPost);
 
 //DELETE
-router.delete('/:id', (req, res) => {
-
-});
+router.delete('/:id', deletePost);
 
 //UPDATE
 router.post('/:id', (req, res) => {
